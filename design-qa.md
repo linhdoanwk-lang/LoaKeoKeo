@@ -1,36 +1,31 @@
-# Design QA — Product banner carousel
+# Design QA — Storefront footer
 
-- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-bb1434ef-38f3-4904-9e08-a6ab30fe3d16.png`
-- Implementation evidence: `codex-iab://tab/5` at `http://localhost:3000/` (desktop left/right states and mobile capture in the current Codex session)
-- Source pixels: 1657 × 722
-- Desktop implementation: 1464 × 877 CSS px, device scale factor 1
+- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-b58d9192-21ca-42f3-ab4a-6936812d5b34.png`
+- Implementation evidence: `codex-iab://tab/6` at `http://localhost:3000/`
+- Source pixels: 1575 × 386
+- Desktop implementation: 1265 × 711 CSS px, device scale factor 1; footer region inspected at the end of the homepage
 - Mobile implementation: 390 × 844 CSS px, device scale factor 1
-- State: homepage after the scroll-triggered lazy bundle loads and `/api/products?limit=12` resolves
-- Density normalization: comparison performed at CSS-pixel scale; browser chrome and surrounding homepage sections excluded from component judgments
+- Density normalization: comparison performed at CSS-pixel scale; browser chrome and the preceding storefront sections were excluded from footer judgments
+- State: homepage scrolled to the footer, light theme, live local catalog data
 
 ## Full-view comparison evidence
 
-The implementation retains the reference composition: a tall promotional banner beside a heading, right-aligned view-all action, horizontally swipeable product cards, and pagination. The desktop left state follows the source; the controlled right state mirrors the grid without changing product-card dimensions or content hierarchy.
-
-The live catalog currently contains one published product, so the production browser correctly renders one database-backed card rather than fabricating store inventory. When more products are published, the same Swiper progressively shows up to three cards in the available desktop width.
+The desktop implementation preserves the reference composition: a broad pale-gray footer, a larger brand/contact column on the left, and four evenly spaced link columns. The mobile implementation intentionally reflows to a readable two-column grid, with the brand/contact block spanning the full width.
 
 ## Focused region comparison evidence
 
-- Fonts and typography: bold sans-serif section heading, compact view-all action, product metadata, name, price, and CTA use the existing storefront hierarchy and match the source density.
-- Spacing and layout rhythm: the banner uses a fixed 280 px desktop track; the product region takes the remaining width. A 24 px column gap and equal-height stretch preserve the source proportions.
-- Colors and visual tokens: white canvas, pale neutral image surfaces, black copy, low-contrast borders, and monochrome controls match the requested white/black storefront theme.
-- Image quality and asset fidelity: a dedicated portrait speaker asset was generated for this slot, then resized and encoded as an 84 KB WebP. The speaker remains fully visible with clean upper negative space; no placeholder, CSS drawing, or text baked into the image is used.
-- Copy and content: section and banner copy are localized for a Vietnamese speaker shop. All text remains editable UI content.
+- Fonts and typography: bold black brand and group headings establish the same hierarchy as the reference; secondary copy uses smaller, low-contrast text with comfortable line height.
+- Spacing and layout rhythm: the 1400 px maximum content width, generous vertical padding, wider brand track, and consistent list gaps closely match the source proportions. Mobile spacing remains even without horizontal overflow.
+- Colors and visual tokens: `#f5f5f7` footer background, black primary text, muted secondary text, and low-contrast top border match the requested white/black storefront direction.
+- Image quality and asset fidelity: the source footer contains no photographic assets. Contact and brand marks use crisp Lucide vector icons from the existing icon system rather than raster placeholders.
+- Copy and content: the structure from the reference is retained and localized for Âm Thanh Việt, including contact details, product categories, information, support, and social links.
 
 ## Interaction and browser checks
 
-- `bannerPosition` accepts `"left" | "right"`; both states were rendered and visually checked at desktop width.
-- Products load through AJAX from a configurable `productsEndpoint`.
-- Swiper touch/drag, clickable pagination, product links, wishlist, and add-to-cart controls remain interactive.
-- Mobile stacks banner and carousel without horizontal page overflow.
-- Loading, empty, and error states are implemented.
+- Footer links are keyboard-accessible anchors and point to existing storefront routes or appropriate external/contact destinations.
+- Desktop five-column and mobile two-column layouts were rendered and checked.
+- Mobile viewport has no visible horizontal page overflow.
 - Browser console errors and warnings checked after desktop and mobile rendering: none.
-- Production build completed successfully before browser QA.
 
 ## Findings
 
@@ -38,12 +33,10 @@ No actionable P0, P1, or P2 differences remain.
 
 ## Comparison history
 
-- Initial pass: the existing horizontal banner asset cropped to an indistinct fabric close-up in the portrait slot (P2 image-fidelity issue).
-- Fix: generated a dedicated portrait speaker asset with a complete product and upper text-safe area, resized it to 900 px, and encoded it as WebP.
-- Post-fix evidence: desktop and mobile browser captures show the full speaker subject, sharp product detail, and readable overlaid copy.
+- First comparison pass: passed with no P0/P1/P2 findings; no visual remediation iteration was required.
 
 ## Follow-up polish
 
-- P3: recheck the final pagination density when the production catalog contains more than three published products.
+- P3: replace the generic social destinations with the store's official profile URLs when they are available.
 
 final result: passed
