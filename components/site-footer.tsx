@@ -1,1 +1,1 @@
-export function SiteFooter() { return <footer className="border-t border-white/10 px-5 py-8 text-sm text-white/50"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 sm:flex-row"><p>© 2026 Âm Thanh Việt</p><p>Nghe đúng chất. Sống đúng gu.</p></div></footer>; }
+export function SiteFooter() { return <footer className="border-t border-black/10 px-5 py-8 text-sm text-black/50"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 sm:flex-row"><p>© 2026 Âm Thanh Việt</p><p>Nghe đúng chất. Sống đúng gu.</p></div></footer>; }
