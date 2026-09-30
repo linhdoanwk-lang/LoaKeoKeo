@@ -109,6 +109,14 @@ button, a { transition: color .2s ease, background-color .2s ease, border-color 
 .product-gallery .swiper-button-next::after { font-size: 16px; font-weight: 700; }
 .product-gallery .swiper-pagination-bullet { background: #000; opacity: .3; }
 .product-gallery .swiper-pagination-bullet-active { background: #000; opacity: 1; }
+.recommendation-swiper .swiper-pagination { bottom: 4px !important; }
+.recommendation-swiper .swiper-pagination-bullet {
+  width: 9px;
+  height: 9px;
+  background: #111;
+  opacity: .25;
+}
+.recommendation-swiper .swiper-pagination-bullet-active { opacity: 1; }
 .hero-banner .swiper-pagination {
   bottom: 30px !important;
   left: 28px !important;

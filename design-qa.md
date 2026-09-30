@@ -1,34 +1,35 @@
-# Design QA — Featured categories
+# Design QA — Product banner carousel
 
-- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-0a9c1b6b-adaf-4db8-b5f5-27044c0db7ca.png`
-- Implementation evidence: `codex-iab://tab/2` at `http://localhost:3000/` (browser-rendered desktop and mobile captures in the current Codex session)
-- Source pixels: 1510 × 563
+- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-bb1434ef-38f3-4904-9e08-a6ab30fe3d16.png`
+- Implementation evidence: `codex-iab://tab/5` at `http://localhost:3000/` (desktop left/right states and mobile capture in the current Codex session)
+- Source pixels: 1657 × 722
 - Desktop implementation: 1464 × 877 CSS px, device scale factor 1
 - Mobile implementation: 390 × 844 CSS px, device scale factor 1
-- State: homepage after the scroll-triggered lazy bundle loads; featured-products AJAX request resolved
-- Density normalization: judged at CSS-pixel scale; browser chrome excluded from component comparison
+- State: homepage after the scroll-triggered lazy bundle loads and `/api/products?limit=12` resolves
+- Density normalization: comparison performed at CSS-pixel scale; browser chrome and surrounding homepage sections excluded from component judgments
 
 ## Full-view comparison evidence
 
-The desktop implementation preserves the reference composition: a left-aligned section title, a right-aligned view-all action, and a rounded two-row by five-column category grid. Thin neutral dividers, centered line icons, bold category labels, generous white space, and the monochrome palette closely match the source while adapting the content to a Vietnamese speaker catalog.
+The implementation retains the reference composition: a tall promotional banner beside a heading, right-aligned view-all action, horizontally swipeable product cards, and pagination. The desktop left state follows the source; the controlled right state mirrors the grid without changing product-card dimensions or content hierarchy.
 
-The 390 px mobile capture confirms a deliberate two-column grid with no horizontal page overflow. The title and view-all action remain on one line after the responsive typography adjustment.
+The live catalog currently contains one published product, so the production browser correctly renders one database-backed card rather than fabricating store inventory. When more products are published, the same Swiper progressively shows up to three cards in the available desktop width.
 
 ## Focused region comparison evidence
 
-- Fonts and typography: sans-serif heading and medium/bold labels match the source hierarchy; the mobile title is reduced only at the narrow breakpoint to prevent wrapping.
-- Spacing and layout rhythm: desktop uses five equal tracks and two rows; mobile uses two equal tracks, consistent cell padding, and a single continuous rounded frame.
-- Colors and visual tokens: white background, black copy, low-opacity gray icons, and subtle black borders follow both the reference and the storefront's established white/black theme.
-- Image and icon fidelity: all category marks use the site's existing Lucide icon system with consistent 1.35 px strokes; no raster placeholders, emoji, or CSS-drawn symbols are used.
-- Copy and content: labels are localized and specific to the speaker catalog: Bluetooth, portable, desktop, karaoke, soundbar, subwoofer, outdoor, smart, sound system, and accessories.
+- Fonts and typography: bold sans-serif section heading, compact view-all action, product metadata, name, price, and CTA use the existing storefront hierarchy and match the source density.
+- Spacing and layout rhythm: the banner uses a fixed 280 px desktop track; the product region takes the remaining width. A 24 px column gap and equal-height stretch preserve the source proportions.
+- Colors and visual tokens: white canvas, pale neutral image surfaces, black copy, low-contrast borders, and monochrome controls match the requested white/black storefront theme.
+- Image quality and asset fidelity: a dedicated portrait speaker asset was generated for this slot, then resized and encoded as an 84 KB WebP. The speaker remains fully visible with clean upper negative space; no placeholder, CSS drawing, or text baked into the image is used.
+- Copy and content: section and banner copy are localized for a Vietnamese speaker shop. All text remains editable UI content.
 
 ## Interaction and browser checks
 
-- The component stays inside the existing scroll-triggered dynamic homepage bundle, so it does not increase the initial above-the-fold JavaScript path.
-- Every category cell and the view-all action is a keyboard-accessible link to Collections.
-- Desktop and 390 × 844 mobile layouts were visually inspected.
-- The lazy boundary was exercised by scrolling from the initial skeleton state.
-- Browser console errors and warnings checked after rendering: none.
+- `bannerPosition` accepts `"left" | "right"`; both states were rendered and visually checked at desktop width.
+- Products load through AJAX from a configurable `productsEndpoint`.
+- Swiper touch/drag, clickable pagination, product links, wishlist, and add-to-cart controls remain interactive.
+- Mobile stacks banner and carousel without horizontal page overflow.
+- Loading, empty, and error states are implemented.
+- Browser console errors and warnings checked after desktop and mobile rendering: none.
 - Production build completed successfully before browser QA.
 
 ## Findings
@@ -37,12 +38,12 @@ No actionable P0, P1, or P2 differences remain.
 
 ## Comparison history
 
-- Initial mobile pass: the title wrapped to two lines beside the view-all action (P2 responsive drift).
-- Fix: reduced only the narrow-breakpoint title/action sizes and tightened the header gap.
-- Post-fix evidence: the 390 px browser capture shows both labels on one line while preserving readable type and the two-column grid.
+- Initial pass: the existing horizontal banner asset cropped to an indistinct fabric close-up in the portrait slot (P2 image-fidelity issue).
+- Fix: generated a dedicated portrait speaker asset with a complete product and upper text-safe area, resized it to 900 px, and encoded it as WebP.
+- Post-fix evidence: desktop and mobile browser captures show the full speaker subject, sharp product detail, and readable overlaid copy.
 
 ## Follow-up polish
 
-- P3: collection-specific destination URLs can replace the shared `/collections` destination when category filtering is added to the collection page.
+- P3: recheck the final pagination density when the production catalog contains more than three published products.
 
 final result: passed

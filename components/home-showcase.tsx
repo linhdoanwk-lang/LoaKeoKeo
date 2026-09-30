@@ -25,6 +25,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import type { Product } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
+import { ProductBannerCarousel } from "@/components/product-banner-carousel";
 
 const promotions = [
   { eyebrow: "Âm thanh linh hoạt", title: "Loa di động\ncho mọi hành trình", image: "/banner-portable-speaker.webp", tone: "bg-[#f1f4f7]" },
@@ -50,6 +51,7 @@ export function HomeShowcase() {
     <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
       <PromotionTiles />
       <FeaturedProducts />
+      <ProductBannerCarousel bannerPosition="left" />
       <FeaturedCategories />
     </div>
   );
