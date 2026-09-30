@@ -1,8 +1,56 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Check, Heart, Plus } from "lucide-react";
+import { Check, Heart, ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { money } from "@/lib/format";
 import { addToCart, getWishlist, toggleWishlist } from "@/lib/shop-storage";
-export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) { const [added,setAdded]=useState(false); const [wished,setWished]=useState(false); useEffect(()=>setWished(getWishlist().includes(Number(product.id))),[product.id]); const colors = ["from-[#222222] to-[#0d0d0d]", "from-[#242424] to-[#0d0d0d]", "from-[#1b1b1b] to-[#090909]"]; const add=()=>{addToCart(product.id);setAdded(true)}; return <article className="group overflow-hidden rounded-[1.75rem] border border-black/10 bg-[#f6f6f6]"><div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${colors[index % colors.length]}`}><Link href={`/products/${product.slug}`} aria-label={`Xem ${product.name}`} className="absolute inset-0">{product.imageUrl ? <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/> : <span className="absolute inset-0 grid place-items-center"><span className="h-28 w-3/5 rounded-[2.5rem] border border-white/15 bg-black/35 shadow-[0_20px_70px_rgba(0,0,0,.45)]"><span className="mx-auto mt-5 block h-1/2 w-[88%] rounded-[2rem] bg-[radial-gradient(circle,#ffffff33_1px,transparent_1.5px)] [background-size:5px_5px]"/></span></span>}</Link><span className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-xs text-white/85">{product.collectionName ?? "Sản phẩm mới"}</span><button onClick={()=>setWished(toggleWishlist(product.id))} aria-label={wished?`Bỏ ${product.name} khỏi wishlist`:`Thêm ${product.name} vào wishlist`} className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-black/55"><Heart size={18} className={wished?"fill-white text-white":"text-white"}/></button></div><div className="flex items-end justify-between gap-4 p-5"><div><Link href={`/products/${product.slug}`}><h3 className="text-xl font-semibold hover:text-black">{product.name}</h3></Link><p className="mt-1 line-clamp-1 text-sm text-black/55">{product.description}</p><div className="mt-3 flex items-center gap-2"><span className="font-semibold text-black">{money(product.price)}</span>{product.comparePrice && <del className="text-xs text-black/35">{money(product.comparePrice)}</del>}</div></div><button onClick={add} aria-label={`Thêm ${product.name} vào giỏ`} className={`grid h-11 w-11 shrink-0 place-items-center rounded-full text-white transition ${added?"bg-black":"bg-black group-hover:bg-[#222]"}`}>{added?<Check size={20}/>:<Plus size={20}/>}</button></div></article>; }
+const fallbackImages = ["/banner-home-speaker.webp", "/banner-portable-speaker.webp", "/banner-soundbar.webp"];
+
+export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
+  const [added, setAdded] = useState(false);
+  const [wished, setWished] = useState(false);
+  useEffect(() => setWished(getWishlist().includes(Number(product.id))), [product.id]);
+  const image = product.imageUrl || fallbackImages[index % fallbackImages.length];
+
+  function add() {
+    addToCart(product.id);
+    setAdded(true);
+  }
+
+  return (
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/10 bg-white">
+      <div className="relative aspect-square overflow-hidden bg-[#f7f7f5]">
+        <Link href={`/products/${product.slug}`} aria-label={`Xem ${product.name}`} className="absolute inset-0 p-5">
+          <img src={image} alt={product.name} loading="lazy" decoding="async" className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.04]" />
+        </Link>
+        <button
+          type="button"
+          onClick={() => setWished(toggleWishlist(product.id))}
+          aria-label={wished ? `Bỏ ${product.name} khỏi wishlist` : `Thêm ${product.name} vào wishlist`}
+          className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-black/10 bg-white/90 text-black shadow-sm backdrop-blur hover:bg-black hover:text-white"
+        >
+          <Heart size={18} className={wished ? "fill-current" : ""} />
+        </button>
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <p className="text-xs text-black/40">{product.collectionName ?? "Sản phẩm mới"}</p>
+        <Link href={`/products/${product.slug}`} className="mt-2 line-clamp-2 min-h-12 text-[17px] font-semibold leading-6 hover:underline">
+          {product.name}
+        </Link>
+        <div className="mt-2 flex items-center gap-2">
+          <span className="font-semibold">{money(product.price)}</span>
+          {product.comparePrice && <del className="text-xs text-black/35">{money(product.comparePrice)}</del>}
+        </div>
+        <button
+          type="button"
+          onClick={add}
+          className={`mt-5 flex w-full items-center justify-between rounded-xl border px-4 py-3 text-sm font-semibold transition ${added ? "border-black bg-black text-white" : "border-black/10 text-black hover:border-black hover:bg-black hover:text-white"}`}
+        >
+          <span>{added ? "Đã thêm vào giỏ" : "Thêm vào giỏ"}</span>
+          {added ? <Check size={18} /> : <ShoppingCart size={18} />}
+        </button>
+      </div>
+    </article>
+  );
+}

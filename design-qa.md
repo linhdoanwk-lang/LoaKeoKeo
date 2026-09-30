@@ -1,47 +1,50 @@
-# Design QA — Homepage hero slider
+# Design QA — Lazy homepage commerce sections
 
-- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-01306e29-172c-47a6-9836-9128ccb37fcb.png`
-- Implementation screenshot: `codex-iab://tab/2` (browser-rendered captures taken in the current Codex session)
+- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-f0d6c868-d305-4fbd-a350-cbf5e46dafce.png`
+- Implementation evidence: `codex-iab://tab/2` (browser-rendered desktop and mobile captures in the current Codex session)
+- Source pixels: 1570 × 958
 - Desktop viewport: 1464 × 884 CSS px, device scale factor 1
 - Mobile viewport: 390 × 844 CSS px, device scale factor 1
-- Source pixels: 1877 × 787
-- State: homepage banner, slide 1; slide switching also tested
-- Density normalization: compared at CSS-pixel scale; browser chrome excluded from layout judgments
+- State: homepage after the lazy boundary intersects and `/api/products?featured=true&limit=12` resolves
+- Density normalization: comparison made at CSS-pixel scale; browser chrome excluded from component judgments
 
 ## Full-view comparison evidence
 
-The implementation preserves the reference hierarchy: large editable headline and supporting copy on the left, dominant product photography on the right, a single primary CTA, and three pagination indicators at the lower left. The website's established monochrome palette replaces the reference blue accent intentionally.
+The implementation preserves the reference's two-section structure: a three-tile promotional row with a wide center tile, followed by a featured-product heading, category filters, and horizontally scrollable product cards. The layout uses the storefront's existing monochrome palette and speaker-specific photography instead of the reference store's unrelated electronics.
 
-Desktop capture confirms the hero fills the main viewport width with a wide, light studio composition. Mobile capture confirms that headline, description, CTA, image subject, and pagination remain visible without horizontal overflow.
+Desktop capture confirms the asymmetric 1–2–1 promotional rhythm, generous vertical spacing, right-aligned filters, bordered white product card, image-first hierarchy, wishlist control, price row, and full-width add-to-cart action. Mobile capture confirms the sections stack cleanly without horizontal page overflow; the product rail remains swipeable.
 
 ## Focused region comparison evidence
 
-- Typography: bold geometric sans-serif headline, tight line height and large scale match the source hierarchy; supporting text stays lower contrast.
-- Spacing: left content inset, vertical centering, CTA gap, and bottom pagination follow the reference rhythm.
-- Colors: white/light-gray background, black text, black CTA, and neutral pagination match the site's requested white-and-black theme.
-- Image quality: three purpose-made high-resolution product images are used; no placeholders, CSS product drawings, or stretched source screenshots.
-- Copy: Vietnamese copy is specific to the speaker store and remains editable HTML.
+- Fonts and typography: strong sans-serif headings, compact category labels, and medium-weight card copy preserve the hierarchy and density of the reference.
+- Spacing and layout rhythm: three promo tiles use the same asymmetric proportions; product content uses consistent internal padding and a reserved two-line title area.
+- Colors and tokens: white canvas, pale neutral tile/card backgrounds, black text, subtle borders, and black selected filter follow the requested white/black system.
+- Image quality and fidelity: promotional cards reuse high-resolution store banner assets; product cards render uploaded product media with `object-contain` and use a real speaker asset when media is absent.
+- Copy and content: all copy is localized for a Vietnamese speaker store and remains editable HTML.
 
-## Interaction and browser checks
+## Loading, interaction, and browser checks
 
-- Swiper pagination changes slides successfully.
-- Autoplay, looping, pointer swipe, clickable pagination, pause-on-hover, and accessibility labels are enabled.
-- Mobile layout tested at 390 × 844.
-- Browser console checked after the final reload: no new warnings or errors.
+- Initial browser state showed only the lightweight showcase skeleton.
+- The dynamic component loaded after the first downward scroll and entered the IntersectionObserver preload range.
+- Browser/server evidence confirmed an AJAX request to `/api/products?featured=true&limit=12` only after activation.
+- Category filters, Swiper navigation/swipe configuration, product links, and wishlist controls are interactive.
+- Add-to-cart was tested on the 390 px viewport: the button changed to “Đã thêm vào giỏ” and the header cart count changed from 0 to 1.
+- Desktop and 390 × 844 mobile layouts were visually inspected.
 - Production build completed successfully.
+- Console warning about smooth-scroll metadata was fixed by declaring `data-scroll-behavior="smooth"` on the root element.
 
 ## Findings
 
-No actionable P0, P1, or P2 differences remain. Rounded corners and the monochrome CTA are intentional adaptations to the existing storefront design system.
+No actionable P0, P1, or P2 differences remain. The live database currently contains one published featured product, so the rail correctly shows one real card instead of inventing catalog data; additional products will automatically populate the shared carousel.
 
 ## Comparison history
 
-- Initial pass: pagination used Swiper's centered default and disappeared visually on mobile (P2).
-- Fix: added component-scoped pagination positioning, active-pill treatment, and responsive offsets.
-- Post-fix evidence: desktop and 390 px mobile browser captures show pagination at the lower-left with all three controls visible.
+- Initial pass: Swiper click prevention could interfere with buttons nested in slides (P2 risk).
+- Fix: explicitly disabled `preventClicks` and `preventClicksPropagation` for the featured-products Swiper.
+- Post-fix evidence: mobile browser interaction successfully added the real database product to the cart and updated both button and header states.
 
 ## Follow-up polish
 
-- P3: product photography could be replaced later with exact store inventory images when those assets are available.
+- P3: when the catalog contains at least four products, recheck desktop arrow placement against real card density.
 
 final result: passed
