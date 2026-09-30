@@ -139,3 +139,9 @@ body {
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 button, a { transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease; }
+.product-gallery .swiper-button-prev,
+.product-gallery .swiper-button-next { color: #fff; width: 42px; height: 42px; border-radius: 999px; background: #080b10aa; }
+.product-gallery .swiper-button-prev::after,
+.product-gallery .swiper-button-next::after { font-size: 16px; font-weight: 700; }
+.product-gallery .swiper-pagination-bullet { background: #fff; opacity: .45; }
+.product-gallery .swiper-pagination-bullet-active { background: #ff9f43; opacity: 1; }

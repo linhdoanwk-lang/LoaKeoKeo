@@ -6,7 +6,7 @@ export async function GET() {
   if(!await getAdminSession()) return NextResponse.json({error:"unauthorized"},{status:401});
   try {
     const [products,collections,posts]=await Promise.all([
-      query(`SELECT id,name,slug,price,compare_price AS "comparePrice",description,image_url AS "imageUrl",collection_id AS "collectionId",published,featured,sku,inventory,tags,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM products ORDER BY created_at DESC`),
+      query(`SELECT id,name,slug,price,compare_price AS "comparePrice",description,image_url AS "imageUrl",image_urls AS "imageUrls",collection_id AS "collectionId",published,featured,sku,inventory,tags,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM products ORDER BY created_at DESC`),
       query(`SELECT id,name,slug,description,image_url AS "imageUrl",published,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM collections ORDER BY created_at DESC`),
       query(`SELECT id,title,slug,excerpt,content,image_url AS "imageUrl",published,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM posts ORDER BY created_at DESC`)
     ]);
