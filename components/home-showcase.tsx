@@ -2,7 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, PackageSearch } from "lucide-react";
+import {
+  ArrowRight,
+  AudioLines,
+  Bluetooth,
+  Cable,
+  ChevronLeft,
+  ChevronRight,
+  CircleDot,
+  CloudSun,
+  MicVocal,
+  PackageSearch,
+  RadioTower,
+  Speaker,
+  Volume2,
+  Wifi,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,11 +32,25 @@ const promotions = [
   { eyebrow: "Điện ảnh tại gia", title: "Soundbar\nđầy nội lực", image: "/banner-soundbar.webp", tone: "bg-[#f2f5ef]" },
 ];
 
+const featuredCategories = [
+  { name: "Loa Bluetooth", icon: Bluetooth },
+  { name: "Loa di động", icon: Volume2 },
+  { name: "Loa để bàn", icon: Speaker },
+  { name: "Loa karaoke", icon: MicVocal },
+  { name: "Soundbar", icon: AudioLines },
+  { name: "Subwoofer", icon: CircleDot },
+  { name: "Loa ngoài trời", icon: CloudSun },
+  { name: "Loa thông minh", icon: Wifi },
+  { name: "Dàn âm thanh", icon: RadioTower },
+  { name: "Phụ kiện", icon: Cable },
+];
+
 export function HomeShowcase() {
   return (
     <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
       <PromotionTiles />
       <FeaturedProducts />
+      <FeaturedCategories />
     </div>
   );
 }
@@ -134,6 +163,42 @@ export function FeaturedProducts() {
           </Swiper>
         </div>
       )}
+    </section>
+  );
+}
+
+export function FeaturedCategories() {
+  return (
+    <section className="pt-16" aria-labelledby="featured-categories-title">
+      <div className="mb-8 flex items-center justify-between gap-3 sm:gap-6">
+        <h2 id="featured-categories-title" className="text-xl font-semibold tracking-tight sm:text-3xl">
+          Danh mục nổi bật
+        </h2>
+        <Link
+          href="/collections"
+          className="group inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold transition-opacity hover:opacity-55 sm:gap-2 sm:text-sm"
+        >
+          Xem tất cả danh mục
+          <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-black/10 lg:grid-cols-5">
+        {featuredCategories.map(({ name, icon: Icon }) => (
+          <Link
+            key={name}
+            href="/collections"
+            className="group -mb-px -mr-px flex min-h-40 flex-col items-center justify-center border-b border-r border-black/10 px-4 py-7 text-center transition-colors hover:bg-black/[.035] sm:min-h-44"
+          >
+            <Icon
+              aria-hidden="true"
+              strokeWidth={1.35}
+              className="h-14 w-14 text-black/35 transition duration-300 group-hover:-translate-y-1 group-hover:text-black sm:h-16 sm:w-16"
+            />
+            <span className="mt-4 text-sm font-semibold sm:text-base">{name}</span>
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }
