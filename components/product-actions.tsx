@@ -1,0 +1,11 @@
+"use client";
+import { useEffect, useState } from "react";
+import { Check, Heart, ShoppingBag } from "lucide-react";
+import { addToCart, getWishlist, toggleWishlist } from "@/lib/shop-storage";
+
+export function ProductActions({ id, name }: { id: number; name: string }) {
+  const [added,setAdded]=useState(false);
+  const [wished,setWished]=useState(false);
+  useEffect(()=>setWished(getWishlist().includes(id)),[id]);
+  return <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]"><button onClick={()=>{addToCart(id);setAdded(true)}} className="flex min-h-13 items-center justify-center gap-2 rounded-full bg-[#ff9f43] px-7 font-semibold text-black hover:bg-[#ffb566]">{added?<Check size={19}/>:<ShoppingBag size={19}/>} {added?"Đã thêm vào giỏ":`Thêm ${name} vào giỏ`}</button><button onClick={()=>setWished(toggleWishlist(id))} aria-label={wished?"Bỏ khỏi wishlist":"Thêm vào wishlist"} className="flex min-h-13 items-center justify-center gap-2 rounded-full border border-white/15 px-6 font-semibold hover:bg-white/10"><Heart size={19} className={wished?"fill-[#ff9f43] text-[#ff9f43]":""}/><span className="sm:hidden">{wished?"Đã lưu":"Lưu sản phẩm"}</span></button></div>;
+}

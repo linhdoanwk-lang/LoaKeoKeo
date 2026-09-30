@@ -1,0 +1,6 @@
+import { NextResponse } from "next/server";
+import { getAdminSession } from "@/lib/admin-auth";
+import { query } from "@/lib/db";
+import { slugify } from "@/lib/slug";
+export async function PATCH(request:Request,{params}:{params:Promise<{id:string}>}) { if(!await getAdminSession()) return NextResponse.json({error:"unauthorized"},{status:401}); const {id}=await params; const body=await request.json() as Record<string,unknown>; const slug=slugify(String(body.slug||body.title||"")); if(!body.title||!slug)return NextResponse.json({error:"missing_fields"},{status:400}); try { await query(`UPDATE posts SET title=$1,slug=$2,excerpt=$3,content=$4,image_url=$5,published=$6,seo_title=$7,seo_description=$8 WHERE id=$9`,[String(body.title),slug,String(body.excerpt||""),String(body.content||""),body.imageUrl||null,body.published!==false,String(body.seoTitle||""),String(body.seoDescription||""),Number(id)]); return NextResponse.json({ok:true}); } catch(e) { return NextResponse.json({error:"save_failed",detail:String(e)},{status:500}); } }
+export async function DELETE(_:Request,{params}:{params:Promise<{id:string}>}) { if(!await getAdminSession()) return NextResponse.json({error:"unauthorized"},{status:401}); const {id}=await params; await query("DELETE FROM posts WHERE id = $1",[Number(id)]); return NextResponse.json({ok:true}); }
