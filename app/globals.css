@@ -19,14 +19,14 @@
 }
 
 :root {
-  --background: #080b10;
+  --background: #050505;
   --foreground: #f7f7f5;
   --card: #ffffff;
   --card-foreground: #171717;
   --popover: #ffffff;
   --popover-foreground: #171717;
-  --primary: #ff9f43;
-  --primary-foreground: #080b10;
+  --primary: #ffffff;
+  --primary-foreground: #050505;
   --secondary: #f5f5f5;
   --secondary-foreground: #171717;
   --muted: #f5f5f5;
@@ -140,8 +140,8 @@ body {
 html { scroll-behavior: smooth; }
 button, a { transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease; }
 .product-gallery .swiper-button-prev,
-.product-gallery .swiper-button-next { color: #fff; width: 42px; height: 42px; border-radius: 999px; background: #080b10aa; }
+.product-gallery .swiper-button-next { color: #fff; width: 42px; height: 42px; border-radius: 999px; background: #050505aa; }
 .product-gallery .swiper-button-prev::after,
 .product-gallery .swiper-button-next::after { font-size: 16px; font-weight: 700; }
 .product-gallery .swiper-pagination-bullet { background: #fff; opacity: .45; }
-.product-gallery .swiper-pagination-bullet-active { background: #ff9f43; opacity: 1; }
+.product-gallery .swiper-pagination-bullet-active { background: #ffffff; opacity: 1; }

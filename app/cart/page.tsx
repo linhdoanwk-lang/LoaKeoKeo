@@ -72,22 +72,22 @@ export default function CartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#080b10] text-white">
+    <main className="min-h-screen bg-[#050505] text-white">
       <SiteHeader />
       <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
-        <p className="text-sm uppercase tracking-[.2em] text-[#ff9f43]">Giỏ hàng</p>
+        <p className="text-sm uppercase tracking-[.2em] text-[#ffffff]">Giỏ hàng</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Sản phẩm bạn đã chọn</h1>
 
         {completedOrder ? (
-          <div className="mt-10 rounded-[1.75rem] border border-emerald-400/20 bg-emerald-400/[.06] p-10 text-center">
-            <CheckCircle2 className="mx-auto text-emerald-400" size={42} />
+          <div className="mt-10 rounded-[1.75rem] border border-white/20 bg-white/[.06] p-10 text-center">
+            <CheckCircle2 className="mx-auto text-white" size={42} />
             <h2 className="mt-5 text-2xl font-semibold">Đặt hàng thành công</h2>
             <p className="mt-2 text-white/60">
               Mã đơn #{completedOrder.orderId} · Tổng cộng {money(Number(completedOrder.total))}
             </p>
             <p className="mt-2 text-sm text-white/45">Cửa hàng sẽ liên hệ với bạn để xác nhận thanh toán và giao hàng.</p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <Link href="/collections" className="rounded-full bg-[#ff9f43] px-6 py-3 font-semibold text-black">
+              <Link href="/collections" className="rounded-full bg-[#ffffff] px-6 py-3 font-semibold text-black">
                 Tiếp tục mua sắm
               </Link>
               <Link href="/admin" className="rounded-full border border-white/15 px-6 py-3 font-semibold text-white">
@@ -100,7 +100,7 @@ export default function CartPage() {
             <ShoppingBag className="mx-auto text-white/35" size={36} />
             <h2 className="mt-5 text-xl font-semibold">Giỏ hàng đang trống</h2>
             <p className="mt-2 text-white/50">Hãy chọn chiếc loa phù hợp với không gian của bạn.</p>
-            <Link href="/collections" className="mt-6 inline-block rounded-full bg-[#ff9f43] px-6 py-3 font-semibold text-black">
+            <Link href="/collections" className="mt-6 inline-block rounded-full bg-[#ffffff] px-6 py-3 font-semibold text-black">
               Khám phá sản phẩm
             </Link>
           </div>
@@ -108,7 +108,7 @@ export default function CartPage() {
           <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_380px]">
             <div className="space-y-4">
               {entries.map(({ line, product }) => (
-                <article key={product.id} className="grid grid-cols-[96px_1fr] gap-4 rounded-2xl border border-white/10 bg-[#11151c] p-4 sm:grid-cols-[120px_1fr_auto]">
+                <article key={product.id} className="grid grid-cols-[96px_1fr] gap-4 rounded-2xl border border-white/10 bg-[#111111] p-4 sm:grid-cols-[120px_1fr_auto]">
                   <Link href={`/products/${product.slug}`} className="aspect-square overflow-hidden rounded-xl bg-white/[.05]">
                     {product.imageUrl ? (
                       <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
@@ -117,11 +117,11 @@ export default function CartPage() {
                     )}
                   </Link>
                   <div className="self-center">
-                    <Link href={`/products/${product.slug}`} className="text-lg font-semibold hover:text-[#ffb566]">
+                    <Link href={`/products/${product.slug}`} className="text-lg font-semibold hover:text-[#ffffff]">
                       {product.name}
                     </Link>
                     <p className="mt-1 text-sm text-white/45">{product.collectionName}</p>
-                    <p className="mt-3 font-semibold text-[#ffb566]">{money(product.price)}</p>
+                    <p className="mt-3 font-semibold text-[#ffffff]">{money(product.price)}</p>
                   </div>
                   <div className="col-span-2 flex items-center justify-between sm:col-span-1 sm:flex-col sm:items-end">
                     <div className="flex items-center rounded-full border border-white/15">
@@ -149,7 +149,7 @@ export default function CartPage() {
               </div>
               <div className="mt-5 flex justify-between border-t border-white/10 pt-5 text-xl font-semibold">
                 <span>Tổng cộng</span>
-                <span className="text-[#ffb566]">{money(total)}</span>
+                <span className="text-[#ffffff]">{money(total)}</span>
               </div>
               <form onSubmit={submitOrder} className="mt-6 space-y-4">
                 <label className="block text-sm text-white/65">
@@ -158,7 +158,7 @@ export default function CartPage() {
                     required
                     value={customerName}
                     onChange={(event) => setCustomerName(event.target.value)}
-                    className="mt-2 w-full rounded-xl border border-white/10 bg-[#171b22] px-4 py-3 text-white outline-none focus:border-[#ff9f43]"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-[#161616] px-4 py-3 text-white outline-none focus:border-[#ffffff]"
                     placeholder="Nguyễn Văn A"
                   />
                 </label>
@@ -168,12 +168,12 @@ export default function CartPage() {
                     type="email"
                     value={customerEmail}
                     onChange={(event) => setCustomerEmail(event.target.value)}
-                    className="mt-2 w-full rounded-xl border border-white/10 bg-[#171b22] px-4 py-3 text-white outline-none focus:border-[#ff9f43]"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-[#161616] px-4 py-3 text-white outline-none focus:border-[#ffffff]"
                     placeholder="ban@example.com"
                   />
                 </label>
                 {error && <p role="alert" className="text-sm leading-5 text-red-300">{error}</p>}
-                <button disabled={submitting} className="w-full rounded-full bg-[#ff9f43] px-5 py-3.5 font-semibold text-black disabled:cursor-wait disabled:opacity-60">
+                <button disabled={submitting} className="w-full rounded-full bg-[#ffffff] px-5 py-3.5 font-semibold text-black disabled:cursor-wait disabled:opacity-60">
                   {submitting ? "Đang tạo đơn..." : "Đặt hàng"}
                 </button>
               </form>
