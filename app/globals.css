@@ -109,3 +109,28 @@ button, a { transition: color .2s ease, background-color .2s ease, border-color 
 .product-gallery .swiper-button-next::after { font-size: 16px; font-weight: 700; }
 .product-gallery .swiper-pagination-bullet { background: #000; opacity: .3; }
 .product-gallery .swiper-pagination-bullet-active { background: #000; opacity: 1; }
+.hero-banner .swiper-pagination {
+  bottom: 30px !important;
+  left: 28px !important;
+  width: auto !important;
+  text-align: left;
+}
+.hero-banner .swiper-pagination-bullet {
+  width: 9px;
+  height: 9px;
+  margin: 0 6px !important;
+  background: #111;
+  opacity: .25;
+  transition: width .25s ease, opacity .25s ease;
+}
+.hero-banner .swiper-pagination-bullet-active {
+  width: 26px;
+  border-radius: 999px;
+  opacity: 1;
+}
+@media (min-width: 640px) {
+  .hero-banner .swiper-pagination { left: 56px !important; bottom: 38px !important; }
+}
+@media (min-width: 1024px) {
+  .hero-banner .swiper-pagination { left: 80px !important; }
+}
