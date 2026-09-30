@@ -1,31 +1,34 @@
-# Design QA — Storefront footer
+# Design QA — Floating contact buttons
 
-- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-b58d9192-21ca-42f3-ab4a-6936812d5b34.png`
-- Implementation evidence: `codex-iab://tab/6` at `http://localhost:3000/`
-- Source pixels: 1575 × 386
-- Desktop implementation: 1265 × 711 CSS px, device scale factor 1; footer region inspected at the end of the homepage
+- Source visual truth: `C:\Users\PA\AppData\Local\Temp\codex-clipboard-2f374fcc-6e40-4417-aada-19fb71dbbf35.png`
+- Implementation evidence: local browser tab at `http://localhost:3000/`
+- Source pixels: 159 × 258
+- Desktop implementation: 1265 × 711 CSS px, device scale factor 1
 - Mobile implementation: 390 × 844 CSS px, device scale factor 1
-- Density normalization: comparison performed at CSS-pixel scale; browser chrome and the preceding storefront sections were excluded from footer judgments
-- State: homepage scrolled to the footer, light theme, live local catalog data
+- Density normalization: the source is a focused crop while the implementation evidence is a full storefront viewport; comparison was limited to the two-button stack at its rendered CSS size
+- State: storefront page, light theme, buttons idle; admin exclusion also verified
 
 ## Full-view comparison evidence
 
-The desktop implementation preserves the reference composition: a broad pale-gray footer, a larger brand/contact column on the left, and four evenly spaced link columns. The mobile implementation intentionally reflows to a readable two-column grid, with the brand/contact block spanning the full width.
+The implementation retains the reference composition: two circular contact controls in a fixed vertical stack near the lower-right edge, with Zalo above Messenger. Both remain visible during page scrolling and preserve the same order on desktop and mobile.
 
 ## Focused region comparison evidence
 
-- Fonts and typography: bold black brand and group headings establish the same hierarchy as the reference; secondary copy uses smaller, low-contrast text with comfortable line height.
-- Spacing and layout rhythm: the 1400 px maximum content width, generous vertical padding, wider brand track, and consistent list gaps closely match the source proportions. Mobile spacing remains even without horizontal overflow.
-- Colors and visual tokens: `#f5f5f7` footer background, black primary text, muted secondary text, and low-contrast top border match the requested white/black storefront direction.
-- Image quality and asset fidelity: the source footer contains no photographic assets. Contact and brand marks use crisp Lucide vector icons from the existing icon system rather than raster placeholders.
-- Copy and content: the structure from the reference is retained and localized for Âm Thanh Việt, including contact details, product categories, information, support, and social links.
+- Fonts and typography: the Zalo wordmark comes from the official-shaped Simple Icons glyph rather than reconstructed text; there is no additional visible copy.
+- Spacing and layout rhythm: both controls are 56 px circles with a 12 px stack gap and consistent right/bottom offsets. The proportions closely match the source crop and remain touch-friendly.
+- Colors and visual tokens: Zalo uses blue on white; Messenger uses a yellow outer circle with a white inner disc and yellow brand mark, matching the source palette.
+- Image quality and asset fidelity: both marks are vector assets from `react-icons`, with no raster blur, placeholder, emoji, handcrafted SVG, or CSS-drawn logo.
+- Copy and content: accessible names identify “Mở Zalo” and “Mở Messenger”; visible branding matches the source.
 
 ## Interaction and browser checks
 
-- Footer links are keyboard-accessible anchors and point to existing storefront routes or appropriate external/contact destinations.
-- Desktop five-column and mobile two-column layouts were rendered and checked.
-- Mobile viewport has no visible horizontal page overflow.
-- Browser console errors and warnings checked after desktop and mobile rendering: none.
+- Zalo resolves to `NEXT_PUBLIC_ZALO_URL`, with `https://zalo.me/` as fallback.
+- Messenger resolves to `NEXT_PUBLIC_MESSENGER_URL`, with `https://www.messenger.com/` as fallback.
+- Links open in a new tab and use `noopener noreferrer`.
+- Both controls expose hover, focus-visible, and keyboard-accessible states.
+- The controls are intentionally hidden on `/admin` routes so they do not cover management actions.
+- Desktop and 390 × 844 mobile layouts were visually checked.
+- Browser console errors and warnings checked: none.
 
 ## Findings
 
@@ -33,10 +36,12 @@ No actionable P0, P1, or P2 differences remain.
 
 ## Comparison history
 
-- First comparison pass: passed with no P0/P1/P2 findings; no visual remediation iteration was required.
+- Initial pass: Messenger rendered as a solid yellow button with a white mark, which differed from the source’s yellow ring and white center (P3).
+- Polish applied: added a white inner disc and changed the Messenger glyph to yellow.
+- Post-fix evidence: the mobile browser capture shows the yellow outer ring, white center, and yellow Messenger mark.
 
 ## Follow-up polish
 
-- P3: replace the generic social destinations with the store's official profile URLs when they are available.
+- P3: replace fallback URLs with the store’s exact Zalo account and Facebook Page links in Vercel environment variables.
 
 final result: passed

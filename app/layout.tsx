@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FloatingContactButtons } from "@/components/floating-contact-buttons";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" data-scroll-behavior="smooth">
-      <body suppressHydrationWarning className="antialiased">{children}</body>
+      <body suppressHydrationWarning className="antialiased">
+        {children}
+        <FloatingContactButtons />
+      </body>
     </html>
   );
 }
