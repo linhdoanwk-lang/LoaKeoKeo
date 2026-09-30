@@ -19,11 +19,12 @@ export function saveCart(lines: CartLine[]) {
   window.dispatchEvent(new Event("shop-change"));
 }
 
-export function addToCart(id: number) {
+export function addToCart(id: number, quantity = 1) {
   id = Number(id);
+  quantity = Math.max(1, Math.floor(Number(quantity) || 1));
   const lines = getCart();
   const existing = lines.find((line) => line.id === id);
-  if (existing) existing.quantity += 1; else lines.push({ id, quantity: 1 });
+  if (existing) existing.quantity += quantity; else lines.push({ id, quantity });
   saveCart(lines);
 }
 
