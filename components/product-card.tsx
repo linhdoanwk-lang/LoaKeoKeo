@@ -34,7 +34,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         </button>
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <p className="text-xs text-black/40">{product.collectionName ?? "Sản phẩm mới"}</p>
+        <p className="truncate text-xs text-black/40">{product.collections?.length ? product.collections.map((collection) => collection.name).join(" · ") : product.collectionName ?? "Sản phẩm mới"}</p>
         <Link href={`/products/${product.slug}`} className="mt-2 line-clamp-2 min-h-12 text-[17px] font-semibold leading-6 hover:underline">
           {product.name}
         </Link>

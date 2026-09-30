@@ -6,7 +6,7 @@ export async function GET() {
   if(!await getAdminSession()) return NextResponse.json({error:"unauthorized"},{status:401});
   try {
     const [products,collections,posts]=await Promise.all([
-      query(`SELECT id,name,slug,price,compare_price AS "comparePrice",description,image_url AS "imageUrl",image_urls AS "imageUrls",collection_id AS "collectionId",published,featured,sku,inventory,tags,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM products ORDER BY created_at DESC`),
+      query(`SELECT p.id,p.name,p.slug,p.price,p.compare_price AS "comparePrice",p.description,p.image_url AS "imageUrl",p.image_urls AS "imageUrls",p.collection_id AS "collectionId",COALESCE((SELECT json_agg(pc.collection_id ORDER BY pc.collection_id) FROM product_collections pc WHERE pc.product_id=p.id),'[]'::json) AS "collectionIds",p.published,p.featured,p.sku,p.inventory,p.tags,p.seo_title AS "seoTitle",p.seo_description AS "seoDescription" FROM products p ORDER BY p.created_at DESC`),
       query(`SELECT id,name,slug,description,image_url AS "imageUrl",published,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM collections ORDER BY created_at DESC`),
       query(`SELECT id,title,slug,excerpt,content,image_url AS "imageUrl",published,seo_title AS "seoTitle",seo_description AS "seoDescription" FROM posts ORDER BY created_at DESC`)
     ]);

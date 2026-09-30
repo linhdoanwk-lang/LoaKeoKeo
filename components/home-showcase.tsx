@@ -111,10 +111,10 @@ export function FeaturedProducts() {
   }, []);
 
   const collections = useMemo(
-    () => ["Tất cả", ...Array.from(new Set(products.map((item) => item.collectionName).filter(Boolean) as string[]))],
+    () => ["Tất cả", ...Array.from(new Set(products.flatMap((item) => item.collections?.length ? item.collections.map((collection) => collection.name) : item.collectionName ? [item.collectionName] : [])))],
     [products],
   );
-  const visibleProducts = activeCollection === "Tất cả" ? products : products.filter((item) => item.collectionName === activeCollection);
+  const visibleProducts = activeCollection === "Tất cả" ? products : products.filter((item) => item.collections?.length ? item.collections.some((collection) => collection.name === activeCollection) : item.collectionName === activeCollection);
 
   return (
     <section id="san-pham" className="featured-products pt-16" aria-labelledby="featured-products-title">
