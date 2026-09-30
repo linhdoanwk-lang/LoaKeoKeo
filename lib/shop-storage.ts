@@ -20,6 +20,7 @@ export function saveCart(lines: CartLine[]) {
 }
 
 export function addToCart(id: number) {
+  id = Number(id);
   const lines = getCart();
   const existing = lines.find((line) => line.id === id);
   if (existing) existing.quantity += 1; else lines.push({ id, quantity: 1 });
@@ -33,6 +34,7 @@ export function getWishlist(): number[] {
 }
 
 export function toggleWishlist(id: number) {
+  id = Number(id);
   const items = getWishlist();
   const next = items.includes(id) ? items.filter((item) => item !== id) : [...items, id];
   localStorage.setItem("atv-wishlist", JSON.stringify(next));

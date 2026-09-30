@@ -29,7 +29,7 @@ export default function CartPage() {
   }, []);
 
   const entries = lines
-    .map((line) => ({ line, product: products.find((item) => item.id === line.id) }))
+    .map((line) => ({ line, product: products.find((item) => Number(item.id) === Number(line.id)) }))
     .filter((item): item is { line: CartLine; product: Product } => Boolean(item.product));
 
   const total = useMemo(
